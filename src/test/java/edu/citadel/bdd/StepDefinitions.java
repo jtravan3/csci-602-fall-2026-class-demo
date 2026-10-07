@@ -1,8 +1,11 @@
 package edu.citadel.bdd;
 
+import edu.citadel.dal.AccountRepository;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 import java.net.URI;
@@ -17,6 +20,14 @@ public class StepDefinitions {
 
     @LocalServerPort
     private int port;
+
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Before
+    public void cleanDatabase() {
+        accountRepository.deleteAll();
+    }
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private HttpResponse<String> response;
